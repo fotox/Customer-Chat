@@ -1,0 +1,62 @@
+name: JobRad Chat
+
+on:
+  push:
+    branches: [ "develop", "feature_*" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  test-and-coverage:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Python 3.11
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      # Install dependencies for functions
+      - name: Install function dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r function/requirements.txt
+
+      # Install dependencies for tests
+      - name: Install test dependencies
+        run: |
+          pip install -r tests/requirements.txt
+
+      # Run pytest with coverage
+      - name: Run tests and generate coverage
+        run: |
+          pytest --cov=function --cov-report=html:documentation/.coverage --cov-report=term tests
+
+      # Upload coverage report as artifact
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: documentation/.coverage
+
+  docker-test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Build and test Docker container
+      - name: Build Docker image
+        run: |
+          docker build -t flask-app-rpi .
+
+      - name: Run Docker container
+        run: |
+          docker run --rm -d -p 80:80 flask-app-rpi
