@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  flask-app:
+    image: customer_chat:latest
+    container_name: customer_chat
+    hostname: customer_chat
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - FLASK_ENV=production
+    ports:
+      - "80:5000"
+    restart: always
+    privileged: true
+    volumes:
+      - /var/log/customer_chat:/app/logs

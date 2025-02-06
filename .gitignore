@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyz
+*.pyw
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+*.pycharm_helpers/
+
+# Compiled files
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Miscellaneous
+.DS_Store
+*.log
+*.swp
+*.swo
+*.bak
+
+# Project dirs
+/postgres-data/
+/secure/
+/logs/
+/venv/
+/.venv/
+*.bkp
+*.dtmp
+
+# Compress files
+*.tar
+*.gz
+*zip
+/function/.env
