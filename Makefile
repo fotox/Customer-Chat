@@ -4,7 +4,7 @@ VENV_NAME := .venv
 ACTIVATE := .venv\\Scripts\\activate
 PYTHON = C:\\Program Files\\Python311\\python.exe
 
-init: init_venv pre-commit
+init: init_venv pre-commit update
 
 init_venv:
 	$(PYTHON) -m venv $(VENV_NAME)
