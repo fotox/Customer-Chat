@@ -1,0 +1,36 @@
+:root {
+    --text_light_green_background: rgba(139, 234, 139, 0.5);
+    --text_light_red_background: rgba(245, 121, 121, 0.5);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#chat-box {
+    width: 80%;
+    max-width: 500px;
+    margin: auto;
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.message {
+    text-align: left;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.user {
+    background-color: var(--text_light_red_background);
+    text-align: left;
+}
+
+.supporter {
+    background-color: var(--text_light_green_background);
+    text-align: right;
+}

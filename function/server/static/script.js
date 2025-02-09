@@ -7,7 +7,7 @@ function startChat() {
     role = document.getElementById("role").value;
 
     if (!username) {
-        alert("Bitte einen Benutzernamen eingeben!");
+        alert("Please enter username!");
         return;
     }
 
@@ -36,7 +36,7 @@ function startChat() {
     };
 
     socket.onclose = () => {
-        alert("Verbindung geschlossen.");
+        alert("Connection closed.");
         location.reload();
     };
 }
