@@ -12,9 +12,13 @@ DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 
-def get_db_connection():
+def get_db_connection() -> psycopg2.connect:
+    """
+    Create a database connection.
+    :return: Database connection.
+    """
     try:
-        conn = psycopg2.connect(
+        conn: psycopg2.connect = psycopg2.connect(
             host=DB_HOST,
             port=DB_PORT,
             dbname=DB_NAME,
@@ -24,5 +28,5 @@ def get_db_connection():
         )
         return conn
     except Exception as e:
-        print(f"Fehler beim Verbinden zur Datenbank: {e}")
+        print(f"ERROR by connecting database: {e}")
         return None

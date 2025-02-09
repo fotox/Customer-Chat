@@ -7,33 +7,45 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import json
 
-app = FastAPI()
-manager = WebSocketManager()
+app: FastAPI = FastAPI()
+manager: WebSocketManager = WebSocketManager()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+templates: Jinja2Templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/")
 async def serve_homepage(request: Request):
+    """
+    Renders the homepage.
+    :param request: Request object from client.
+    :return: Chat dashboard
+    """
     return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.websocket("/ws/{username}/{role}")
-async def websocket_endpoint(websocket: WebSocket, username: str, role: str):
+async def websocket_endpoint(websocket: WebSocket, username: str, role: str) -> None:
+    """
+    Main setup for websocket endpoint.
+    :param websocket: WebSocket object for server-client communication.
+    :param username: Name of the connected user.
+    :param role: Name of the connected user role. User or Supporter
+    :return: None
+    """
     await manager.connect(websocket, username, role)
 
-    user = get_or_create_user(username, role)
-    chat = get_active_chat(user["id"], role)
+    user: dict = get_or_create_user(username, role)
+    chat: dict = get_active_chat(user["id"], role)
 
     if chat:
-        await websocket.send_text(json.dumps({"system": "Chat verbunden!"}))
+        await websocket.send_text(json.dumps({"system": "Chat connected!"}))
     else:
-        await websocket.send_text(json.dumps({"system": "Warte auf Supporter..."}))
+        await websocket.send_text(json.dumps({"system": "Wait for supporter..."}))
 
     try:
         while True:
-            data = await websocket.receive_text()
-            message = Message(sender=user["username"], message=data)
+            data: str = await websocket.receive_text()
+            message: Message = Message(sender=user["username"], message=data)
             save_message(chat["id"], user["id"], data)
             await manager.broadcast(chat["id"], message.json())
     except WebSocketDisconnect:

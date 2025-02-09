@@ -1,14 +1,20 @@
+import psycopg2
+
 from database import get_db_connection
 
 
-def create_tables():
-    conn = get_db_connection()
+def create_tables() -> None:
+    """
+    Creates all tables in the database.
+    :return: None
+    """
+    conn: psycopg2.connect = get_db_connection()
     if conn is None:
-        print("Keine Verbindung zur Datenbank möglich.")
+        print("No connection to the database possible.")
         return
 
     try:
-        cur = conn.cursor()
+        cur: psycopg2.extensions.cursor = conn.cursor()
 
         cur.execute("""
             CREATE TABLE IF NOT EXISTS users (
@@ -48,10 +54,10 @@ def create_tables():
 
         conn.commit()
         cur.close()
-        print("Datenbanktabellen erfolgreich erstellt!")
+        print("Database tables successfully created!")
 
     except Exception as e:
-        print(f"Fehler beim Erstellen der Tabellen: {e}")
+        print(f"ERROR when creating the tables: {e}")
 
     finally:
         conn.close()
