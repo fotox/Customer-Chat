@@ -1,6 +1,9 @@
 import psycopg2
 
 from database import get_db_connection
+from log_module import __init_log_module
+
+logging = __init_log_module('server')
 
 
 def create_tables() -> None:
@@ -10,7 +13,7 @@ def create_tables() -> None:
     """
     conn: psycopg2.connect = get_db_connection()
     if conn is None:
-        print("No connection to the database possible.")
+        logging.error("No connection to the database possible.")
         return
 
     try:
@@ -23,6 +26,7 @@ def create_tables() -> None:
                 role TEXT CHECK (role IN ('user', 'supporter')) NOT NULL
             );
         """)
+        logging.debug("User table initial creation successful.")
 
         cur.execute("""
             CREATE TABLE IF NOT EXISTS chats (
@@ -32,6 +36,7 @@ def create_tables() -> None:
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """)
+        logging.debug("Chats table initial creation successful.")
 
         cur.execute("""
             CREATE TABLE IF NOT EXISTS messages (
@@ -42,13 +47,14 @@ def create_tables() -> None:
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
         """)
+        logging.debug("Messages table initial creation successful.")
 
         conn.commit()
         cur.close()
-        print("Database tables successfully created!")
+        logging.info("Database tables successfully created!")
 
     except Exception as e:
-        print(f"ERROR when creating the tables: {e}")
+        logging.error(f"ERROR when creating the initial tables", exc_info=e)
 
     finally:
         conn.close()

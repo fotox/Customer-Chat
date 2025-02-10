@@ -3,6 +3,10 @@ import json
 from typing import Dict, List
 from fastapi import WebSocket
 
+from log_module import __init_log_module
+
+logging = __init_log_module('server')
+
 
 class WebSocketManager:
     def __init__(self):
@@ -25,6 +29,7 @@ class WebSocketManager:
             self.active_connections[chat_id] = []
 
         self.active_connections[chat_id].append(websocket)
+        logging.info(f"WebSocket connected to {username} [{role}], with in {chat_id}.")
 
     def disconnect(self, websocket: WebSocket, username: str, chat_id: str):
         """
@@ -44,16 +49,18 @@ class WebSocketManager:
                 system_message = {"system": "The supporter has left the chat."}
             else:
                 system_message = {"system": "A participant has left the chat."}
+            logging.info(system_message['system'])
 
             for conn in self.active_connections[chat_id]:
                 try:
                     conn.send_text(json.dumps(system_message))
                 except Exception as e:
-                    print(e)
+                    logging.error("Error by sending system message:", exc_info=e)
                     pass
 
             if not self.active_connections[chat_id]:
                 del self.active_connections[chat_id]
+                logging.info(f"WebSocket disconnected from {username} [{role}].")
 
     async def broadcast(self, chat_id: str, message: str) -> None:
         """

@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 from starlette.responses import JSONResponse
 
+from log_module import __init_log_module
 from websocket_manager import WebSocketManager
 from crud import get_or_create_user, save_message, get_or_create_chat, get_chat_by_uuid, get_available_chat, \
     assign_supporter_to_chat
@@ -15,6 +16,7 @@ app: FastAPI = FastAPI()
 manager: WebSocketManager = WebSocketManager()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
+logging = __init_log_module('server')
 
 
 @app.get("/")
@@ -51,8 +53,10 @@ async def create_chat(username: str, role: str) -> JSONResponse:
     chat: dict = get_or_create_chat(user["id"])
 
     if chat:
+        logging.info("Chat can be created.")
         return JSONResponse(content={"chat_id": chat["id"]}, status_code=200)
     else:
+        logging.error("Chat can not be created.")
         return JSONResponse(content={"ERROR": "ERROR when creating the chat"}, status_code=400)
 
 
@@ -67,8 +71,10 @@ async def assign_supporter(supporter_name: str) -> JSONResponse:
     if chat:
         supporter_id: dict = get_or_create_user(supporter_name, 'supporter')
         assign_supporter_to_chat(chat['id'], supporter_id['id'])
+        logging.info("Chat can be assigned.")
         return JSONResponse(content={"chat_id": chat['id']}, status_code=200)
     else:
+        logging.error("No available chat can be assigned.")
         return JSONResponse(content={"ERROR": "No available chat found."}, status_code=400)
 
 
@@ -87,12 +93,12 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
     user: dict = get_or_create_user(username, role)
     chat: dict = get_chat_by_uuid(chat_id)
 
-    if not chat:
-        chat = get_or_create_chat(user["id"])
-
     if chat:
+        logging.info("Chat is connected and ready.")
         await websocket.send_text(json.dumps({"system": "Chat connected!"}))
     else:
+        chat = get_or_create_chat(user["id"])
+        logging.info("Chat is connected and wait for supporter.")
         await websocket.send_text(json.dumps({"system": "Wait for supporter..."}))
 
     try:
@@ -101,7 +107,8 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
             message: Message = Message(sender=user["username"], message=data)
             save_message(chat["id"], user["id"], data)
             await manager.broadcast(chat_id, message.json())
-    except WebSocketDisconnect:
+    except WebSocketDisconnect as e:
+        logging.error("WebSocket disconnect.", exc_info=e)
         manager.disconnect(websocket, username, chat_id)
 
 

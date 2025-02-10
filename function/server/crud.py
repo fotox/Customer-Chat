@@ -1,9 +1,12 @@
 import uuid
 
 import psycopg2
-from psycopg2.extras import RealDictRow, RealDictCursor
+from psycopg2.extras import RealDictRow
 
 from database import get_db_connection
+from log_module import __init_log_module
+
+logging = __init_log_module('server')
 
 
 def get_or_create_user(username: str, role: str) -> dict:
@@ -18,12 +21,15 @@ def get_or_create_user(username: str, role: str) -> dict:
 
     cur.execute("SELECT id, username FROM users WHERE username = %(username)s;",
                 {'username': username})
+    logging.debug(f"Executing query: SELECT id, username FROM users WHERE username = {username}")
 
     user: RealDictRow = cur.fetchone()
 
     if not user:
         cur.execute("INSERT INTO users (username, role) VALUES (%s, %s) RETURNING id, username;",
                     (username, role))
+        logging.debug(f"Executing query: INSERT INTO users VALUES {username}, {role} RETURNING id, username;")
+
         user: RealDictRow = cur.fetchone()
         conn.commit()
 
@@ -43,12 +49,16 @@ def get_or_create_chat(user_id: str) -> dict:
 
     cur.execute("SELECT id FROM chats WHERE user_id = %(user_id)s AND supporter_id IS NULL;",
                 {'user_id': user_id})
+    logging.debug(f"Executing query: SELECT id FROM chats WHERE user_id = {user_id} AND supporter_id IS NULL;")
+
     chat: RealDictRow = cur.fetchone()
 
     if not chat:
         chat_id: str = str(uuid.uuid4())
         cur.execute("INSERT INTO chats (user_id, id) VALUES (%s, %s) RETURNING id;",
                     (user_id, chat_id))
+        logging.debug(f"Executing query: INSERT INTO chats (user_id, id) VALUES {user_id}, {chat_id} RETURNING id;")
+
         chat: RealDictRow = cur.fetchone()
         conn.commit()
 
@@ -68,6 +78,8 @@ def get_chat_by_uuid(chat_id: str) -> dict:
 
     cur.execute("SELECT id FROM chats WHERE id = %(chat_id)s;",
                 {'chat_id': chat_id})
+    logging.debug(f"Executing query: SELECT id FROM chats WHERE id = {chat_id};")
+
     chat: RealDictRow = cur.fetchone()
 
     cur.close()
@@ -84,6 +96,8 @@ def get_available_chat() -> dict:
     cur: psycopg2.extensions.cursor = conn.cursor()
 
     cur.execute("SELECT id, user_id FROM chats WHERE supporter_id IS NULL;")
+    logging.debug(f"Executing query: SELECT id, user_id FROM chats WHERE supporter_id IS NULL;")
+
     chat: RealDictRow = cur.fetchone()
 
     cur.close()
@@ -103,6 +117,8 @@ def assign_supporter_to_chat(chat_id: str, supporter_id: str):
 
     cur.execute("UPDATE chats SET supporter_id = %(supporter_id)s WHERE id = %(chat_id)s AND supporter_id IS NULL;",
                 {'supporter_id': supporter_id, 'chat_id': chat_id})
+    logging.debug(f"Executing query: UPDATE chats SET supporter_id = {supporter_id} "
+                  f"WHERE id = {chat_id} AND supporter_id IS NULL;")
 
     conn.commit()
     cur.close()
@@ -123,6 +139,7 @@ def save_message(chat_id: str, sender_id: int, message: str) -> None:
 
     cur.execute("INSERT INTO messages (chat_id, sender_id, message) VALUES (%s, %s, %s);",
                 (chat_id, sender_id, message))
+    logging.debug(f"INSERT INTO messages (chat_id, sender_id, message) VALUES {chat_id}, {sender_id}, {message};")
 
     conn.commit()
     cur.close()
