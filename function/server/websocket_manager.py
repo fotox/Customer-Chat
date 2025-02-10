@@ -31,7 +31,7 @@ class WebSocketManager:
         self.active_connections[chat_id].append(websocket)
         logging.info(f"WebSocket connected to {username} [{role}], with in {chat_id}.")
 
-    def disconnect(self, websocket: WebSocket, username: str, chat_id: str):
+    async def disconnect(self, websocket: WebSocket, username: str, chat_id: str):
         """
         Disconnect one WebSocket client and inform the other.
         :param chat_id: ID of the chat to be terminated.
@@ -53,7 +53,7 @@ class WebSocketManager:
 
             for conn in self.active_connections[chat_id]:
                 try:
-                    conn.send_text(json.dumps(system_message))
+                    await conn.send_text(json.dumps(system_message))
                 except Exception as e:
                     logging.error("Error by sending system message:", exc_info=e)
                     pass

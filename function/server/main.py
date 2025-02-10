@@ -12,6 +12,7 @@ from crud import get_or_create_user, save_message, get_or_create_chat, get_chat_
     assign_supporter_to_chat
 from schemas import Message
 
+
 app: FastAPI = FastAPI()
 manager: WebSocketManager = WebSocketManager()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -115,4 +116,5 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
