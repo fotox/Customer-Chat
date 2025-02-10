@@ -4,25 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat System</title>
-    <script src="/static/script.js" defer></script>
+    <script src="/static/websockets.js" defer></script>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <h1>Live-Chat</h1>
 
     <div id="login">
-        <input type="text" id="username" placeholder="Benutzername">
+        <label for="username"></label>
+        <input type="text" id="username" placeholder="Username">
+        <label for="role"></label>
         <select id="role">
             <option value="user">User</option>
             <option value="supporter">Supporter</option>
         </select>
-        <button onclick="startChat()">Chat starten</button>
+        <button onclick="startChat()" id="user_login">Login</button>
     </div>
 
     <div id="chat" style="display: none;">
         <div id="chat-box"></div>
-        <input type="text" id="message" placeholder="Nachricht">
-        <button onclick="sendMessage()">Senden</button>
+        <label for="message"></label>
+        <input type="text" id="message" placeholder="Message">
+        <button onclick="sendMessage()">Send</button>
     </div>
 </body>
 </html>

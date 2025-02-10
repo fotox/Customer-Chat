@@ -26,7 +26,7 @@ def create_tables() -> None:
 
         cur.execute("""
             CREATE TABLE IF NOT EXISTS chats (
-                id SERIAL PRIMARY KEY,
+                id TEXT PRIMARY KEY UNIQUE NOT NULL DEFAULT gen_random_uuid(),
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 supporter_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -36,19 +36,10 @@ def create_tables() -> None:
         cur.execute("""
             CREATE TABLE IF NOT EXISTS messages (
                 id SERIAL PRIMARY KEY,
-                chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
+                chat_id TEXT REFERENCES chats(id) ON DELETE CASCADE,
                 sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 message TEXT NOT NULL,
                 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
-        """)
-
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS active_chats (
-                id SERIAL PRIMARY KEY,
-                chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
-                supporter_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-                is_active BOOLEAN DEFAULT TRUE
             );
         """)
 
