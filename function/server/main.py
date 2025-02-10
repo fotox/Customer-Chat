@@ -16,6 +16,7 @@ app: FastAPI = FastAPI()
 manager: WebSocketManager = WebSocketManager()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
+
 logging = __init_log_module('server')
 
 
