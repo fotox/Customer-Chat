@@ -17,8 +17,8 @@ def get_or_create_user(username: str, role: str) -> dict:
     user: RealDictRow = cur.fetchone()
 
     if not user:
-        # TODO: SQL-Injection check
-        cur.execute("INSERT INTO users (username, role) VALUES (%s, %s) RETURNING id, username;", (username, role))
+        cur.execute("INSERT INTO users (username, role) VALUES (%s, %s) RETURNING id, username;",
+                    (username, role))
         user: RealDictRow = cur.fetchone()
         conn.commit()
 
@@ -38,16 +38,17 @@ def get_active_chat(user_id: int, role: str) -> dict:
     cur: psycopg2.extensions.cursor = conn.cursor()
 
     if role == "user":
-        # TODO: SQL-Injection check
-        cur.execute("SELECT id FROM chats WHERE user_id = %s AND supporter_id IS NULL;", (user_id,))
+        cur.execute("SELECT id FROM chats WHERE user_id = %(user_id)s AND supporter_id IS NULL;",
+                    {'user_id': user_id})
     else:
-        # TODO: SQL-Injection check
-        cur.execute("SELECT id FROM chats WHERE supporter_id = %s;", (user_id,))
+        cur.execute("SELECT id FROM chats WHERE supporter_id = %(user_id)s;",
+                    {'user_id': user_id})
 
     chat: RealDictRow = cur.fetchone()
 
     if not chat:
-        cur.execute("INSERT INTO chats (user_id) VALUES (%s) RETURNING id;", (user_id,))
+        cur.execute("INSERT INTO chats (user_id) VALUES (%s) RETURNING id;",
+                    (user_id,))
         chat: RealDictRow = cur.fetchone()
         conn.commit()
 
@@ -67,7 +68,6 @@ def save_message(chat_id: int, sender_id: int, message: str) -> None:
     conn: psycopg2.connect = get_db_connection()
     cur: psycopg2.extensions.cursor = conn.cursor()
 
-    # TODO: SQL-Injection check
     cur.execute("INSERT INTO messages (chat_id, sender_id, message) VALUES (%s, %s, %s);",
                 (chat_id, sender_id, message))
 
