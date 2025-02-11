@@ -1,5 +1,7 @@
 import json
 
+from fastapi import APIRouter
+from fastapi.responses import FileResponse
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -18,7 +20,15 @@ manager: WebSocketManager = WebSocketManager()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
 
+router = APIRouter(prefix="/favicon.ico")
+favicon_path = "./static/img/favicon.ico"
+
 logging = __init_log_module('server')
+
+
+@router.get("", include_in_schema=False)
+def favicon():
+    return FileResponse(favicon_path)
 
 
 @app.get("/")
@@ -111,7 +121,7 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
             await manager.broadcast(chat_id, message.json())
     except WebSocketDisconnect as e:
         logging.error("WebSocket disconnect.", exc_info=e)
-        manager.disconnect(websocket, username, chat_id)
+        await manager.disconnect(websocket, username, chat_id)
 
 
 if __name__ == "__main__":
