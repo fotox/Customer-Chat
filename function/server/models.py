@@ -21,7 +21,7 @@ def create_tables() -> None:
 
         cur.execute("""
             CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
+                id TEXT PRIMARY KEY UNIQUE NOT NULL DEFAULT gen_random_uuid(),
                 username TEXT UNIQUE NOT NULL,
                 role TEXT CHECK (role IN ('user', 'supporter')) NOT NULL
             );
