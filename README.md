@@ -102,6 +102,8 @@ chat of the user. Users and supporters can then use websockets to communicate wi
 
 ### :clipboard: Architecture
 
+![database scheme v1](documentation/database_scheme_v1.png)
+![sequence diagram v1](documentation/sequence_diagram_v1.png)
 
 ## Version 2 - Secure web-based chat
 In the second version, the basic chat will be expanded to include the security factor. In addition, a multi-chat
@@ -141,6 +143,7 @@ create a chat themselves and send the link to the chat to a user so that they ca
 
 ### :clipboard: Architecture
 
+![database scheme v2](documentation/database_scheme_v2.png)
 
 ## Version 3 - Secure web-based chat, incl. automatic text module suggestions
 
@@ -157,6 +160,7 @@ system with a thumbs up or thumbs down button in response to the suggestions.
 - [ ] 3 answers should always be suggested, which have the highest weighting for the question
 - [ ] Implementation of a new endpoint to provide the answers
 - [ ] Implementation of a new function to automatically send clicked answers from the supporter to the user
+- [ ] Test coverage must be at least 80% based on unit tests
 
 ### :arrow_upper_right: Nice to have
 
@@ -187,6 +191,7 @@ previous conversation, is forwarded to a supporter.
 - [ ] Integrate communication between a local OpenAI ChatGPT instance in MS Azure and the server
 - [ ] Add new endpoint for messages from user to chat AI
 - [ ] Integrate a Retrieval Augmented Generation (RAG) system that primarily queries the answers from the knowledge base
+- [ ] Test coverage must be at least 80% based on unit tests
 
 ### :arrow_upper_right: Nice to have
 
@@ -202,85 +207,3 @@ previous conversation, is forwarded to a supporter.
 - No documentation of code and functionality
 
 ### :clipboard: Architecture
-
-
-
-
-### Database model
-
-- users
-  ```postgresql
-  CREATE TABLE users (
-      id SERIAL PRIMARY KEY,
-      uuid UUID UNIQUE NOT NULL DEFAULT gen_random_uuid(),
-      username TEXT NOT NULL,
-      role TEXT CHECK (role IN ('user', 'supporter')) NOT NULL,
-      password_hash TEXT,
-      created_at TIMESTAMP DEFAULT NOW()
-  );
-  ```
-
-- chats
-  ```postgresql
-  CREATE TABLE chats (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-      supporter_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
-      status TEXT CHECK (status IN ('open', 'assigned', 'closed')) NOT NULL DEFAULT 'open',
-      created_at TIMESTAMP DEFAULT NOW(),
-      archived_at TIMESTAMP
-  );
-  ```
-
-- messages
-  ```postgresql
-  CREATE TABLE messages (
-      id SERIAL PRIMARY KEY,
-      chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
-      sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-      content BYTEA NOT NULL,
-      timestamp TIMESTAMP DEFAULT NOW()
-  );
-  ```
-
-- tokens
-  ```postgresql
-  CREATE TABLE tokens (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-      token TEXT NOT NULL,
-      expires_at TIMESTAMP NOT NULL
-  );
-  ```
-
-- active_chats
-  ```postgresql
-  CREATE TABLE active_chats (
-      id SERIAL PRIMARY KEY,
-      chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
-      supporter_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-      assigned_at TIMESTAMP DEFAULT NOW()
-  );
-  ```
-
-- archived_chats
-  ```postgresql
-  CREATE TABLE archived_chats (
-    id UUID PRIMARY KEY,
-    user_id UUID REFERENCES users(id),
-    supporter_id UUID REFERENCES users(id),
-    chat_content JSONB,
-    archived_at TIMESTAMPTZ DEFAULT NOW()
-  );
-  ```
-
-- suggested_replies
-  ```postgresql
-  CREATE TABLE suggested_replies (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    message_id UUID REFERENCES messages(id) ON DELETE CASCADE,
-    reply TEXT NOT NULL,
-    confidence FLOAT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-  );
-  ```
