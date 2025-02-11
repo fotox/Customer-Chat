@@ -3,7 +3,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 
-from server.log_module import __init_log_module
+from log_module import __init_log_module
 
 logger = __init_log_module('server')
 

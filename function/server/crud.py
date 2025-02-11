@@ -3,8 +3,8 @@ import uuid
 import psycopg2
 from psycopg2.extras import RealDictRow
 
-from server.database import get_db_connection
-from server.log_module import __init_log_module
+from database import get_db_connection
+from log_module import __init_log_module
 
 logging = __init_log_module('server')
 
