@@ -144,19 +144,29 @@ create a chat themselves and send the link to the chat to a user so that they ca
 
 ## Version 3 - Secure web-based chat, incl. automatic text module suggestions
 
-
+In the third version, an AI will be created based on the chat histories already stored in version 2, which will
+a preselection of possible answers for the supporter, which will be interpreted on the basis of the user's questions.
+The supporter should then be able to click on an answer, which is then sent directly to the user, and rate it for the
+system with a thumbs up or thumbs down button in response to the suggestions.
 
 ### :white_check_mark: Must have
 
-
+- [ ] Evaluate the table of archived chats
+- [ ] Data preparation for the creation of a training-, test- and validation-data set
+- [ ] Training of an AI for automatic answer finding
+- [ ] 3 answers should always be suggested, which have the highest weighting for the question
+- [ ] Implementation of a new endpoint to provide the answers
+- [ ] Implementation of a new function to automatically send clicked answers from the supporter to the user
 
 ### :arrow_upper_right: Nice to have
 
-
+- [ ] Testsystem zum primären Bewertung von Antworten (Reinforcement Learning)
+- [ ] Testsystem zur Korrektur von "fast richtigen" Antworten (Reinforcement Learning)
 
 ### :x: Dont do this
 
 - No sql-injection protection
+- No prompt-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
@@ -166,21 +176,27 @@ create a chat themselves and send the link to the chat to a user so that they ca
 
 ## Version 4 - Secure ai-based web chat, incl. RAG knowledge database
 
-
+In version 4, support will be provided by an AI chatbot in the first instance. A knowledge database is to be created
+and a RAG system integrated. If the chatbot is unable to answer the user's questions, the active chat, including the
+previous conversation, is forwarded to a supporter.
 
 ### :white_check_mark: Must have
 
-
-  - from version 4 onwards, AI integration will be based on a chatbot, which will be extended by a knowledge
-    database using RAG. (*pgvector*) for version 2 and following
+- [ ] Create a knowledge database for support
+- [ ] Use `pgvector` library to create a vector knowledge database
+- [ ] Integrate communication between a local OpenAI ChatGPT instance in MS Azure and the server
+- [ ] Add new endpoint for messages from user to chat AI
+- [ ] Integrate a Retrieval Augmented Generation (RAG) system that primarily queries the answers from the knowledge base
 
 ### :arrow_upper_right: Nice to have
 
-
+- [ ] Add a backend solution that allows employees to edit and update the knowledge database
+- [ ] Add a rating system for the user so that they can rate the automatic responses as good or bad.
 
 ### :x: Dont do this
 
 - No sql-injection protection
+- No prompt-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
