@@ -29,12 +29,37 @@ for this will automatically set up the following preparations for you:
 
 ## Start server at the development level
 
-
+- Navigate to `/function/server` and execute `python main.py`
+- Server will create logs under `/logs/server.log`
+- Webinterface will deploy under: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- Chat interface will generate under: [http://127.0.0.1:8000/{uuid}/{username}](http://127.0.0.1:8000/{uuid}/{username})
 
 ## Build and start server over docker
 
+- Navigate to root directory `/`
+- **! Important:** Before saving the image, switch from the Powershell to the cmd console. If the save command is executed
+  in the Powershell console, the error message “archive/tar: invalid tar header” is displayed when the image is loaded
+  on a Linux server.
+- Execute in console (change the version number before you execute)
+  ```bash
+  docker build -t jobrad_customer_chat:<VERSIONSNUMMER> -t jobrad_customer_chat:latest .
+  cmd
+  docker save jobrad_customer_chat:latest > jobrad_customer_chat.tar
+  ```
+- Zip the tar-file to tar.gz
+- Transfer image zip file and docker-compose.yml to server
+- Load the docker image and start the customer chat server container
+  ```bash
+  docker load < viki-heat_<VERSIONSNUMMER>.tar.gz
+  docker-compose up -d
+  ```
 
 ## Run pytest and generate code coverage review
+
+- Navigate to root directory `/`
+- Run in console `pytest`
+- The test result is displayed in the console, saved in a `/.coverage` file and as an html view in the `/htmlcov`
+  directory
 
 ---
 
@@ -44,7 +69,7 @@ The first version will provide basic chat functionality. It will be possible for
 the server. The supporter can then establish a connection to the server, which will establish a connection to the same
 chat of the user. Users and supporters can then use websockets to communicate with each other.
 
-:white_check_mark: Must have
+### :white_check_mark: Must have
 
 - [x] client-server-model over web interface
 - [x] FastAPI for better websockets integration
@@ -60,7 +85,7 @@ chat of the user. Users and supporters can then use websockets to communicate wi
 - [x] Simple Webinterface based on HTML and Javascript
 - [ ] Test coverage must be at least 80% based on unit tests
 
-:arrow_upper_right: Nice to have
+### :arrow_upper_right: Nice to have
 
 - [ ] Supporter can take over & end chats
 - [ ] After logging into the chat, the user is shown the status of the connection:
@@ -68,14 +93,14 @@ chat of the user. Users and supporters can then use websockets to communicate wi
   - “Chat active”
   - “Chat was ended by the supporter”
 
-:x: Dont do this
+### :x: Dont do this
 
 - No sql-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
 
- :clipboard: Architecture
+### :clipboard: Architecture
 
 
 ## Version 2 - Secure web-based chat
@@ -84,7 +109,7 @@ functionality is to be implemented so that several users can open a chat at the 
 actively participate in one or more of the chats using a list of open chats. A supporter should also be able to
 create a chat themselves and send the link to the chat to a user so that they can use it to log in.
 
-:white_check_mark: Must have
+### :white_check_mark: Must have
 
 - [ ] saving passwords exclusively encrypted via bcrypt
 - [ ] communication encryption via AED
@@ -103,64 +128,64 @@ create a chat themselves and send the link to the chat to a user so that they ca
 - [ ] Simple Webinterface based on HTML and Javascript
 - [ ] Test coverage must be at least 80% based on unit tests
 
-:arrow_upper_right: Nice to have
+### :arrow_upper_right: Nice to have
 
 - [ ] automatic archiving of chats after 1 week in a separate database
 
-:x: Dont do this
+### :x: Dont do this
 
 - No sql-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
 
-:clipboard: Architecture
+### :clipboard: Architecture
 
 
 ## Version 3 - Secure web-based chat, incl. automatic text module suggestions
 
 
 
-:white_check_mark: Must have
+### :white_check_mark: Must have
 
 
 
-:arrow_upper_right: Nice to have
+### :arrow_upper_right: Nice to have
 
 
 
-:x: Dont do this
+### :x: Dont do this
 
 - No sql-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
 
-:clipboard: Architecture
+### :clipboard: Architecture
 
 
 ## Version 4 - Secure ai-based web chat, incl. RAG knowledge database
 
 
 
-:white_check_mark: Must have
+### :white_check_mark: Must have
 
 
   - from version 4 onwards, AI integration will be based on a chatbot, which will be extended by a knowledge
     database using RAG. (*pgvector*) for version 2 and following
 
-:arrow_upper_right: Nice to have
+### :arrow_upper_right: Nice to have
 
 
 
-:x: Dont do this
+### :x: Dont do this
 
 - No sql-injection protection
 - No tests
 - No type hints and docstrings
 - No documentation of code and functionality
 
-:clipboard: Architecture
+### :clipboard: Architecture
 
 
 
@@ -233,13 +258,6 @@ create a chat themselves and send the link to the chat to a user so that they ca
   );
   ```
 
-## Version 2 - Web-based chat, incl. automatic text module suggestions
-
-- [ ] extension of the database by a table with suggested answers, which can be suggested by the AI depending on
-      the weighting.
-
-### Database model
-
 - suggested_replies
   ```postgresql
   CREATE TABLE suggested_replies (
@@ -250,7 +268,3 @@ create a chat themselves and send the link to the chat to a user so that they ca
     created_at TIMESTAMPTZ DEFAULT NOW()
   );
   ```
-
-## Version 3 - AI-based web chat, incl. RAG knowledge database
-
-- [ ]
