@@ -3,6 +3,10 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
 
+from server.log_module import __init_log_module
+
+logger = __init_log_module('server')
+
 load_dotenv()
 
 DB_HOST = os.getenv("DB_HOST")
@@ -28,5 +32,5 @@ def get_db_connection() -> psycopg2.connect:
         )
         return conn
     except Exception as e:
-        print(f"ERROR by connecting database: {e}")
+        logger.error("ERROR by connecting database.", exc_info=e)
         return None
