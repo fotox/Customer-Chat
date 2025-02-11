@@ -177,6 +177,7 @@ system with a thumbs up or thumbs down button in response to the suggestions.
 
 ### :clipboard: Architecture
 
+![database scheme v2](documentation/database_scheme_v2.png)
 
 ## Version 4 - Secure ai-based web chat, incl. RAG knowledge database
 
