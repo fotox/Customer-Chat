@@ -43,7 +43,6 @@ for this will automatically set up the following preparations for you:
 - Execute in console (change the version number before you execute)
   ```bash
   docker build -t jobrad_customer_chat:<VERSIONSNUMMER> -t jobrad_customer_chat:latest .
-  cmd
   docker save jobrad_customer_chat:latest > jobrad_customer_chat.tar
   ```
 - Zip the tar-file to tar.gz
