@@ -1,19 +1,20 @@
 FROM python:3.11-slim
 
-WORKDIR /app
+WORKDIR /chat
 
 RUN apt-get update && apt-get install -y \
     python3-dev \
-    python3-pip
+    python3-pip \
+    libpq-dev
 
-WORKDIR /app
-COPY function/server/requirements.txt .
+WORKDIR /chat
+COPY function/requirements.txt .
 
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY function .
+COPY function/server .
 
-EXPOSE 80
+EXPOSE 8000
 
-CMD ["python", "app.py"]
+CMD ["python", "main.py"]

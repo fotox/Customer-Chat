@@ -3,7 +3,8 @@ version: '3.8'
 services:
   db:
     image: postgres:15
-    container_name: chat_database
+    container_name: database
+    hostname: jobrad_customer_chat_database
     restart: always
     ports:
       - "5432:5432"
@@ -13,7 +14,36 @@ services:
       POSTGRES_PASSWORD: secretpassword
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - chat_network
+
+  app:
+    image: jobrad_customer_chat:latest
+    container_name: chat
+    hostname: jobrad_customer_chat
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: "jobrad_customer_chat_database"
+      DB_PORT: '5432'
+      DB_NAME: 'chatdb'
+      DB_USER: 'chatadmin'
+      DB_PASSWORD: 'secretpassword'
+    volumes:
+      - /var/log/jobrad/chat:/chat/logs
+    networks:
+      - chat_network
 
 volumes:
   postgres_data:
     driver: local
+
+networks:
+  chat_network:
+    driver: bridge
