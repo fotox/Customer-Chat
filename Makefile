@@ -9,7 +9,7 @@ init: init_venv pre-commit update
 init_venv:
 	$(PYTHON) -m venv $(VENV_NAME)
 	echo "Virtual environment $(VENV_NAME) created."
-	python.exe -m pip install --upgrade pip
+	$(ACTIVATE) & python.exe -m pip install --upgrade pip
 
 pre-commit:
 	$(ACTIVATE) & pip install pre-commit
