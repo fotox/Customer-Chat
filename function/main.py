@@ -9,10 +9,10 @@ from fastapi.requests import Request
 from starlette.responses import JSONResponse
 
 from log_module import __init_log_module
-from websocket_manager import WebSocketManager
-from crud import get_or_create_user, save_message, get_or_create_chat, get_chat_by_uuid, get_available_chat, \
+from websocket.manager import WebSocketManager
+from database.crud import get_or_create_user, save_message, get_or_create_chat, get_chat_by_uuid, get_available_chat, \
     assign_supporter_to_chat
-from schemas import Message
+from common.schemas import Message
 
 
 app: FastAPI = FastAPI()
@@ -21,7 +21,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
 
 router = APIRouter(prefix="/favicon.ico")
-favicon_path = "./static/img/favicon.ico"
+favicon_path = "/static/img/favicon.ico"
 
 logging = __init_log_module('server')
 

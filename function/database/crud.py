@@ -3,7 +3,7 @@ import uuid
 import psycopg2
 from psycopg2.extras import RealDictRow
 
-from database import get_db_connection
+from database.connection import get_db_connection
 from log_module import __init_log_module
 
 logging = __init_log_module('server')
@@ -17,7 +17,7 @@ def get_or_create_user(username: str, role: str) -> dict:
     :return: Dictionary with the user information.
     """
     conn: psycopg2.connect = get_db_connection()
-    cur: psycopg2.extensions.cursor = conn.cursor()
+    cur: psycopg2.cursor = conn.cursor()
 
     cur.execute("SELECT id, username FROM users WHERE username = %(username)s;",
                 {'username': username})

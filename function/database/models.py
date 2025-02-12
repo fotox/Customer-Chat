@@ -1,6 +1,6 @@
 import psycopg2
 
-from database import get_db_connection
+from connection import get_db_connection
 from log_module import __init_log_module
 
 logging = __init_log_module('server')

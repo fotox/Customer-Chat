@@ -1,0 +1,148 @@
+openapi: 3.0.0
+info:
+  title: JobRad Customer Chat
+  description: A simple WebSocket-based chat system between a user and a supporter.
+  version: 2.1.0
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local development server
+
+paths:
+  /:
+    get:
+      summary: Load the homepage
+      description: Loads the `index.html` page containing the chat web GUI.
+      responses:
+        '200':
+          description: HTML page loaded successfully
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /chat/{chat_id}/{username}:
+    get:
+      summary: Reload an open chat
+      description: Loads the chat interface for a given chat ID and username.
+      parameters:
+        - name: chat_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the chat
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of the connected user
+      responses:
+        '200':
+          description: Chat page loaded successfully
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /create_chat/{username}/{role}:
+    get:
+      summary: Create a new chat session
+      description: Creates a new chat session for a user with a specific role.
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The username of the connected user
+        - name: role
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [user, supporter]
+          description: The role of the user (either 'user' or 'supporter')
+      responses:
+        '200':
+          description: Chat successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chat_id:
+                    type: string
+                    description: The unique chat ID
+        '400':
+          description: Error when creating the chat
+
+  /assign_supporter/{supporter_name}:
+    get:
+      summary: Assign a supporter to an available chat
+      description: Assigns a supporter to the next available chat.
+      parameters:
+        - name: supporter_name
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The name of the supporter
+      responses:
+        '200':
+          description: Supporter successfully assigned to a chat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chat_id:
+                    type: string
+                    description: The assigned chat ID
+        '400':
+          description: No available chat found
+
+  /ws/{chat_id}/{username}/{role}:
+    get:
+      summary: WebSocket for chat communication
+      description: Establishes a WebSocket connection for real-time chat messaging.
+      parameters:
+        - name: chat_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the chat
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The client's username
+        - name: role
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [user, supporter]
+          description: The role of the user (either 'user' or 'supporter')
+      responses:
+        '101':
+          description: WebSocket connection successfully established
+        '400':
+          description: Invalid request parameters
+
+components:
+  schemas:
+    Message:
+      type: object
+      required:
+        - sender
+        - message
+      properties:
+        sender:
+          type: string
+          description: The sender of the message
+        message:
+          type: string
+          description: The content of the message
