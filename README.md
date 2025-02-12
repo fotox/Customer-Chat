@@ -102,6 +102,7 @@ chat of the user. Users and supporters can then use websockets to communicate wi
 ### :clipboard: Architecture
 
 ![database scheme v1](documentation/database_scheme_v1.png)
+
 ![sequence diagram v1](documentation/sequence_diagram_v1.png)
 
 ## Version 2 - Secure web-based chat
