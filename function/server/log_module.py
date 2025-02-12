@@ -7,7 +7,7 @@ def __init_log_module(log_type: str) -> logging:
     :return: logging module.
     """
     logging.basicConfig(
-        filename=f"../../logs/{log_type}.log",
+        filename=f"logs/{log_type}.log",
         encoding="utf-8",
         filemode="a",
         format="{asctime} - {levelname} - {message}",
