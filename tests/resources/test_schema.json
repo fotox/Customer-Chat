@@ -1,0 +1,32 @@
+[
+  {
+    "expected": {
+      "message": "Hello!",
+      "sender": "user1"
+    },
+    "input": {
+      "message": "Hello!",
+      "sender": "user1"
+    }
+  },
+  {
+    "expected": {
+      "message": "",
+      "sender": "user1"
+    },
+    "input": {
+      "message": null,
+      "sender": "user1"
+    }
+  },
+  {
+    "expected": {
+      "message": "",
+      "sender": ""
+    },
+    "input": {
+      "message": 123,
+      "sender": "user1"
+    }
+  }
+]
