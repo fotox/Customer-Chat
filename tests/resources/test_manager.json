@@ -1,0 +1,104 @@
+[
+  {
+    "description": "Test connect, disconnect and broadcast with valid user",
+    "expected": {
+      "chat_id": "chat_123",
+      "role": "user",
+      "test_message": "Hello, this is a test message!",
+      "username": "test_user"
+    },
+    "input": {
+      "test_message": "Hello, this is a test message!",
+      "valid_user": {
+        "chat_id": "chat_123",
+        "role": "user",
+        "username": "test_user"
+      }
+    }
+  },
+  {
+    "description": "Test connect, disconnect and broadcast with valid supporter",
+    "expected": {
+      "chat_id": "chat_123",
+      "role": "supporter",
+      "test_message": "Hello, this is a test message!",
+      "username": "test_user"
+    },
+    "input": {
+      "test_message": "Hello, this is a test message!",
+      "valid_user": {
+        "chat_id": "chat_123",
+        "role": "supporter",
+        "username": "test_user"
+      }
+    }
+  },
+  {
+    "description": "Test connect, disconnect and broadcast with admin user",
+    "expected": {
+      "chat_id": "chat_123",
+      "role": "admin",
+      "test_message": "Hello, this is a test message!",
+      "username": "test_user"
+    },
+    "input": {
+      "test_message": "Hello, this is a test message!",
+      "valid_user": {
+        "chat_id": "chat_123",
+        "role": "admin",
+        "username": "test_user"
+      }
+    }
+  },
+  {
+    "description": "Test connect, disconnect and broadcast with non existent chat",
+    "expected": {
+      "chat_id": null,
+      "role": "user",
+      "test_message": "No one is here.",
+      "username": "ghost_user"
+    },
+    "input": {
+      "test_message": "No one is here.",
+      "valid_user": {
+        "chat_id": null,
+        "role": "user",
+        "username": "ghost_user"
+      }
+    }
+  },
+  {
+    "description": "Test connect, disconnect and broadcast with non existent user",
+    "expected": {
+      "chat_id": "chat_123",
+      "role": "user",
+      "test_message": "Hello, this is a test message!",
+      "username": null
+    },
+    "input": {
+      "test_message": "Hello, this is a test message!",
+      "valid_user": {
+        "chat_id": "chat_123",
+        "role": "user",
+        "username": null
+      }
+    }
+  },
+  {
+    "description": "Test connect, disconnect and broadcast with non existent role",
+    "expected": {
+      "chat_id": "chat_123",
+      "role": null,
+      "test_message": "Hello, this is a test message!",
+      "username": "ghost_user"
+    },
+    "input": {
+      "test_message": "Hello, this is a test message!",
+      "valid_user": {
+        "chat_id": "chat_123",
+        "role": null,
+        "username": "ghost_user"
+      }
+    }
+  }
+]
