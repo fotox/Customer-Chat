@@ -22,7 +22,7 @@ def test_initial_state(ws_manager):
     assert ws_manager.user_roles == {}
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="function")
 @pytest.mark.parametrize("test_data", load_test_data("test_manager"))
 async def test_connect(ws_manager, mock_websocket, test_data):
     username = test_data['input']['valid_user']['username']
@@ -45,7 +45,7 @@ async def test_connect(ws_manager, mock_websocket, test_data):
         assert mock_websocket not in ws_manager.active_connections[test_data['expected']['chat_id']]
 
 
-@pytest.mark.asyncio
+@pytest.mark.asyncio(loop_scope="function")
 @pytest.mark.parametrize("test_data", load_test_data("test_manager"))
 async def test_broadcast(ws_manager, mock_websocket, test_data):
     chat_id = test_data['input']['valid_user']['chat_id']

@@ -62,14 +62,17 @@ async def create_chat(username: str, role: str) -> JSONResponse:
     :return: Chat id.
     """
     user: dict = get_or_create_user(username, role)
-    chat: dict = get_or_create_chat(user["id"])
 
-    if chat:
-        logging.info("Chat can be created.")
-        return JSONResponse(content={"chat_id": chat["id"]}, status_code=200)
+    if user:
+        chat: dict = get_or_create_chat(user["id"])
+        if chat:
+            logging.info("Chat can be created.")
+            return JSONResponse(content={"chat_id": chat["id"]}, status_code=200)
+        else:
+            logging.error("Chat can not be created.")
+            return JSONResponse(content={"ERROR": "ERROR when creating the chat"}, status_code=400)
     else:
-        logging.error("Chat can not be created.")
-        return JSONResponse(content={"ERROR": "ERROR when creating the chat"}, status_code=400)
+        return JSONResponse(content={"ERROR": "ERROR no user exists"}, status_code=400)
 
 
 @app.get("/assign_supporter/{supporter_name}")
@@ -80,8 +83,9 @@ async def assign_supporter(supporter_name: str) -> JSONResponse:
     :return: The assigned chat ID or an error message.
     """
     chat: dict = get_available_chat()
-    if chat:
-        supporter_id: dict = get_or_create_user(supporter_name, 'supporter')
+    supporter_id: dict = get_or_create_user(supporter_name, 'supporter')
+
+    if chat and supporter_id:
         assign_supporter_to_chat(chat['id'], supporter_id['id'])
         logging.info("Chat can be assigned.")
         return JSONResponse(content={"chat_id": chat['id']}, status_code=200)
@@ -103,15 +107,17 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
     await manager.connect(websocket, username, role, chat_id)
 
     user: dict = get_or_create_user(username, role)
-    chat: dict = get_chat_by_uuid(chat_id)
-
-    if chat:
-        logging.info("Chat is connected and ready.")
-        await websocket.send_text(json.dumps({"system": "Chat connected!"}))
+    if user:
+        chat: dict = get_chat_by_uuid(chat_id)
+        if chat:
+            logging.info("Chat is connected and ready.")
+            await websocket.send_text(json.dumps({"system": "Chat connected!"}))
+        else:
+            chat = get_or_create_chat(user["id"])
+            logging.info("Chat is connected and wait for supporter.")
+            await websocket.send_text(json.dumps({"system": "Wait for supporter..."}))
     else:
-        chat = get_or_create_chat(user["id"])
-        logging.info("Chat is connected and wait for supporter.")
-        await websocket.send_text(json.dumps({"system": "Wait for supporter..."}))
+        return None
 
     try:
         while True:

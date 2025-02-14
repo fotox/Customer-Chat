@@ -1,0 +1,46 @@
+[
+  {
+    "description": "Create new valid user in database.",
+    "expected": {
+      "id": 1,
+      "username": "testuser"
+    },
+    "input": {
+      "role": "user",
+      "username": "testuser"
+    }
+  },
+  {
+    "description": "Create new valid supporter in database.",
+    "expected": {
+      "id": 2,
+      "username": "newuser"
+    },
+    "input": {
+      "role": "supporter",
+      "username": "newuser"
+    }
+  },
+  {
+    "description": "Create invalid user by missing username in database.",
+    "expected": {
+      "id": 3,
+      "username": null
+    },
+    "input": {
+      "role": "user",
+      "username": null
+    }
+  },
+  {
+    "description": "Create invalid user by missing role in database.",
+    "expected": {
+      "id": 4,
+      "username": null
+    },
+    "input": {
+      "role": null,
+      "username": "test_user"
+    }
+  }
+]

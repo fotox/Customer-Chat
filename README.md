@@ -29,6 +29,14 @@ for this will automatically set up the following preparations for you:
 
 ## Start server at the development level
 
+- Create a `.env` file under the project directory and enter the connection values for database
+  ```dotenv
+    DB_HOST=
+    DB_PORT=
+    DB_NAME=
+    DB_USER=
+    DB_PASSWORD=
+  ```
 - Navigate to `/function/server` and execute `python main.py`
 - Server will create logs under `/logs/server.log`
 - Webinterface will deploy under: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)

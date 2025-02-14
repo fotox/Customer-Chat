@@ -1,0 +1,29 @@
+[
+  {
+    "description": "Test create new chat when no existing chat is found.",
+    "expected": {
+      "id": "mocked-chat-uuid"
+    },
+    "input": {
+      "user_id": 1
+    }
+  },
+  {
+    "description": "Test create new chat with another user.",
+    "expected": {
+      "id": "mocked-chat-uuid-2"
+    },
+    "input": {
+      "user_id": 2
+    }
+  },
+  {
+    "description": "Test handling when user_id is null.",
+    "expected": {
+      "id": null
+    },
+    "input": {
+      "user_id": null
+    }
+  }
+]
