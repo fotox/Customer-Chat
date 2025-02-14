@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 from log_module import __init_log_module
 
-# logger = __init_log_module('server')
+logger = __init_log_module('server')
 
 load_dotenv()
 
@@ -32,5 +32,5 @@ def get_db_connection() -> psycopg2.connect:
         )
         return conn
     except Exception as e:
-        # logger.error("ERROR by connecting database.", exc_info=e)
+        logger.error("ERROR by connecting database.", exc_info=e)
         return None
