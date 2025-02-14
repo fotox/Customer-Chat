@@ -1,5 +1,6 @@
 [
   {
+    "description": "Test valid schema.",
     "expected": {
       "message": "Hello!",
       "sender": "user1"
@@ -10,6 +11,7 @@
     }
   },
   {
+    "description": "Test invalid schema with empty message.",
     "expected": {
       "message": "",
       "sender": "user1"
@@ -20,6 +22,7 @@
     }
   },
   {
+    "description": "Test invalid schema with integer message.",
     "expected": {
       "message": "",
       "sender": ""
@@ -27,6 +30,17 @@
     "input": {
       "message": 123,
       "sender": "user1"
+    }
+  },
+  {
+    "description": "Test invalid schema with empty user.",
+    "expected": {
+      "message": "Hello!",
+      "sender": "user1"
+    },
+    "input": {
+      "message": "Hello!",
+      "sender": null
     }
   }
 ]
