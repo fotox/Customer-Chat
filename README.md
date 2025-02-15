@@ -37,7 +37,7 @@ for this will automatically set up the following preparations for you:
     DB_USER=
     DB_PASSWORD=
   ```
-- Navigate to `/function/server` and execute `python main.py`
+- Navigate to `/function` and execute `python main.py`
 - Server will create logs under `/logs/server.log`
 - Webinterface will deploy under: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 - Chat interface will generate under: [http://127.0.0.1:8000/{uuid}/{username}](http://127.0.0.1:8000/{uuid}/{username})
