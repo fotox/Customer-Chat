@@ -1,0 +1,26 @@
+[
+  {
+    "description": "Test saving a user message",
+    "input": {
+      "chat_id": "chat123",
+      "message": "Hello, how can I get support?",
+      "sender_id": 1
+    }
+  },
+  {
+    "description": "Test saving a supporter message",
+    "input": {
+      "chat_id": "chat123",
+      "message": "Sure, I am here to help!",
+      "sender_id": 99
+    }
+  },
+  {
+    "description": "Test saving an empty message",
+    "input": {
+      "chat_id": "chat123",
+      "message": "",
+      "sender_id": 1
+    }
+  }
+]

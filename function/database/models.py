@@ -1,20 +1,19 @@
 import psycopg2
 
-from connection import get_db_connection
 from log_module import __init_log_module
+from .crud import get_connection_to_database
 
 logging = __init_log_module('server')
 
 
-def create_tables() -> None:
+def create_tables(conn=get_connection_to_database()) -> None:
     """
     Creates all tables in the database.
     :return: None
     """
-    conn: psycopg2.connect = get_db_connection()
     if conn is None:
         logging.error("No connection to the database possible.")
-        return
+        return None
 
     try:
         cur: psycopg2.extensions.cursor = conn.cursor()

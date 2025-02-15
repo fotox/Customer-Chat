@@ -1,0 +1,25 @@
+[
+  {
+    "description": "Test fetching an existing chat by UUID",
+    "expected": {
+      "id": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    "input": {
+      "chat_id": "123e4567-e89b-12d3-a456-426614174000"
+    }
+  },
+  {
+    "description": "Test fetching a non-existing chat",
+    "expected": null,
+    "input": {
+      "chat_id": "00000000-0000-0000-0000-000000000000"
+    }
+  },
+  {
+    "description": "Test fetching a chat with an invalid UUID",
+    "expected": null,
+    "input": {
+      "chat_id": "invalid-uuid"
+    }
+  }
+]

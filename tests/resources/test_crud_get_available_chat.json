@@ -1,0 +1,15 @@
+[
+  {
+    "description": "Test fetching an available chat without a supporter",
+    "expected": {
+      "id": "abc123",
+      "user_id": "user789"
+    },
+    "input": {}
+  },
+  {
+    "description": "Test fetching when no available chat exists",
+    "expected": null,
+    "input": {}
+  }
+]

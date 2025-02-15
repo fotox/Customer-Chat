@@ -1,0 +1,18 @@
+[
+  {
+    "description": "Test assigning a supporter to a chat",
+    "expected": true,
+    "input": {
+      "chat_id": "chat123",
+      "supporter_id": "supporter456"
+    }
+  },
+  {
+    "description": "Test assigning a supporter to an already assigned chat",
+    "expected": true,
+    "input": {
+      "chat_id": "chat789",
+      "supporter_id": "supporter999"
+    }
+  }
+]

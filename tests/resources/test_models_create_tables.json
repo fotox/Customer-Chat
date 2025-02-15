@@ -1,0 +1,10 @@
+[
+  {
+    "description": "Normale Tabellen-Erstellung",
+    "simulate_connection_error": false
+  },
+  {
+    "description": "Datenbankverbindungsfehler",
+    "simulate_connection_error": true
+  }
+]
