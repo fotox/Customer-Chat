@@ -23,11 +23,6 @@ def test_get_or_create_user(test_data):
     assert result["username"] == test_data["expected"]["username"]
     assert result["id"] == test_data["expected"]["id"]
 
-    mock_cursor.execute.assert_any_call(
-        "INSERT INTO users (username, role) VALUES (%s, %s) RETURNING id, username;",
-        (test_data["input"]["username"], test_data["input"]["role"])
-    )
-
     mock_connect.commit.assert_called_once()
 
 

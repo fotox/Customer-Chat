@@ -2,44 +2,48 @@
   {
     "description": "Create new valid user in database.",
     "expected": {
-      "id": 1,
+      "id": "13bb12d0-d821-445f-9ab1-785a643315e9",
       "username": "testuser"
     },
     "input": {
       "role": "user",
+      "user_id": "13bb12d0-d821-445f-9ab1-785a643315e9",
       "username": "testuser"
     }
   },
   {
     "description": "Create new valid supporter in database.",
     "expected": {
-      "id": 2,
+      "id": "c80ca2ca-9b46-46bd-ac5f-21dba0db5acf",
       "username": "newuser"
     },
     "input": {
       "role": "supporter",
+      "user_id": "c80ca2ca-9b46-46bd-ac5f-21dba0db5acf",
       "username": "newuser"
     }
   },
   {
     "description": "Create invalid user by missing username in database.",
     "expected": {
-      "id": 3,
+      "id": "39e6aea7-a7c6-499d-8529-48fc40ba3a19",
       "username": null
     },
     "input": {
       "role": "user",
+      "user_id": "39e6aea7-a7c6-499d-8529-48fc40ba3a19",
       "username": null
     }
   },
   {
     "description": "Create invalid user by missing role in database.",
     "expected": {
-      "id": 4,
+      "id": "bf5a520f-7776-47f4-850e-f029d322c858",
       "username": null
     },
     "input": {
       "role": null,
+      "user_id": "bf5a520f-7776-47f4-850e-f029d322c858",
       "username": "test_user"
     }
   }
