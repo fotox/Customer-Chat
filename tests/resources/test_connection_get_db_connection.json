@@ -1,0 +1,46 @@
+[
+  {
+    "description": "Valid DB connection",
+    "env": {
+      "DB_HOST": "localhost",
+      "DB_NAME": "test_db",
+      "DB_PASSWORD": "password",
+      "DB_PORT": "5432",
+      "DB_USER": "user"
+    },
+    "expected": true
+  },
+  {
+    "description": "Invalid credentials",
+    "env": {
+      "DB_HOST": "localhost",
+      "DB_NAME": "test_db",
+      "DB_PASSWORD": "wrong_password",
+      "DB_PORT": "5432",
+      "DB_USER": "wrong_user"
+    },
+    "expected": false
+  },
+  {
+    "description": "Missing database name",
+    "env": {
+      "DB_HOST": "localhost",
+      "DB_NAME": "",
+      "DB_PASSWORD": "password",
+      "DB_PORT": "5432",
+      "DB_USER": "user"
+    },
+    "expected": false
+  },
+  {
+    "description": "Database server not reachable",
+    "env": {
+      "DB_HOST": "invalid_host",
+      "DB_NAME": "test_db",
+      "DB_PASSWORD": "password",
+      "DB_PORT": "5432",
+      "DB_USER": "user"
+    },
+    "expected": false
+  }
+]
