@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Test chat creation for user",
+    "expected": {
+      "chat_id": "1234"
+    },
+    "input": {
+      "role": "user",
+      "username": "testuser"
+    }
+  },
+  {
+    "description": "Test chat creation for supporter",
+    "expected": {
+      "chat_id": "5678"
+    },
+    "input": {
+      "role": "supporter",
+      "username": "supporter1"
+    }
+  }
+]

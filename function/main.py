@@ -1,5 +1,6 @@
 import json
 
+from pathlib import Path
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -8,16 +9,19 @@ from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 from starlette.responses import JSONResponse
 
+from database.models import create_tables
 from log_module import __init_log_module
 from websocket.manager import WebSocketManager
 from database.crud import get_or_create_user, save_message, get_or_create_chat, get_chat_by_uuid, get_available_chat, \
     assign_supporter_to_chat
 from common.schemas import Message
 
+# Init database
+create_tables()
 
 app: FastAPI = FastAPI()
 manager: WebSocketManager = WebSocketManager()
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory=Path("static")), name="static")
 templates: Jinja2Templates = Jinja2Templates(directory="templates")
 
 router = APIRouter(prefix="/favicon.ico")
@@ -133,4 +137,4 @@ async def websocket_endpoint(websocket: WebSocket, chat_id: str, username: str, 
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

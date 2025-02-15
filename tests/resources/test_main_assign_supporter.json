@@ -1,0 +1,20 @@
+[
+  {
+    "description": "Assign supporter to available chat",
+    "expected": {
+      "chat_id": "9999"
+    },
+    "input": {
+      "supporter_name": "supporter1"
+    }
+  },
+  {
+    "description": "No available chat to assign",
+    "expected": {
+      "chat_id": null
+    },
+    "input": {
+      "supporter_name": "supporter2"
+    }
+  }
+]

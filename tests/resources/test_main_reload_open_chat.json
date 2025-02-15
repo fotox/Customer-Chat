@@ -1,0 +1,15 @@
+[
+  {
+    "description": "Chat page renders successfully",
+    "expected": {
+      "chat_id": "1234",
+      "status": 200,
+      "template": "index.html",
+      "username": "testuser"
+    },
+    "input": {
+      "chat_id": "1234",
+      "username": "testuser"
+    }
+  }
+]

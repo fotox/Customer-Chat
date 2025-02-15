@@ -1,0 +1,9 @@
+[
+  {
+    "description": "Homepage renders successfully",
+    "expected": {
+      "status": 200,
+      "template": "index.html"
+    }
+  }
+]
