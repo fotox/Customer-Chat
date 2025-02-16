@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:15
     container_name: database
-    hostname: jobrad_customer_chat_database
+    hostname: customer_chat_database
     restart: always
     ports:
       - "5432:5432"
@@ -18,9 +18,9 @@ services:
       - chat_network
 
   app:
-    image: jobrad_customer_chat:latest
+    image: customer_chat:latest
     container_name: chat
-    hostname: jobrad_customer_chat
+    hostname: customer_chat
     restart: always
     build:
       context: .
@@ -30,13 +30,13 @@ services:
     depends_on:
       - db
     environment:
-      DB_HOST: "jobrad_customer_chat_database"
+      DB_HOST: "customer_chat_database"
       DB_PORT: '5432'
       DB_NAME: 'chatdb'
       DB_USER: 'chatadmin'
       DB_PASSWORD: 'secretpassword'
     volumes:
-      - /var/log/jobrad/chat:/chat/logs
+      - /var/log/chat:/chat/logs
     networks:
       - chat_network
 

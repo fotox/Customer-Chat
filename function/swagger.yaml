@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: JobRad Customer Chat
+  title: Customer Chat
   description: A simple WebSocket-based chat system between a user and a supporter.
   version: 2.1.0
 servers:
