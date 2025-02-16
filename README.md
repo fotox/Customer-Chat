@@ -37,6 +37,7 @@ for this will automatically set up the following preparations for you:
     DB_USER=
     DB_PASSWORD=
   ```
+- Start database over docker-compose
 - Navigate to `/function` and execute `python main.py`
 - Server will create logs under `/logs/server.log`
 - Webinterface will deploy under: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
