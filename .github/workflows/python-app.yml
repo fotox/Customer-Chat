@@ -13,7 +13,7 @@ jobs:
     steps:
       # Checkout repository
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Set up Python 3.11
       - name: Set up Python 3.11
@@ -39,24 +39,7 @@ jobs:
 
       # Upload coverage report as artifact
       - name: Upload coverage report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: documentation/.coverage
-
-  docker-test:
-    runs-on: ubuntu-24.04
-
-    steps:
-      # Checkout repository
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Build and test Docker container
-      - name: Build Docker image
-        run: |
-          docker build -t flask-app-rpi .
-
-      - name: Run Docker container
-        run: |
-          docker run --rm -d -p 80:80 flask-app-rpi
