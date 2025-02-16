@@ -91,7 +91,7 @@ chat of the user. Users and supporters can then use websockets to communicate wi
 - [x] log server errors to `/var/logs/chat/` in docker container
 - [x] time zone is set to Europe/Berlin to enable standardized time stamps
 - [x] Simple Webinterface based on HTML and Javascript
-- [ ] Test coverage must be at least 80% based on unit tests
+- [x] Test coverage must be at least 80% based on unit tests
 
 ### :arrow_upper_right: Nice to have
 
