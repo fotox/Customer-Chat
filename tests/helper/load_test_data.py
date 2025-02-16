@@ -1,4 +1,5 @@
 import json
+import os
 import pathlib
 
 
@@ -8,6 +9,8 @@ def load_test_data(filename: str) -> dict:
     :param filename: name of input file
     :return: input and expected data
     """
-    cwd = pathlib.Path(__file__).parent.resolve()
-    with open(f"{cwd}\\..\\resources\\{filename}.json", "r", encoding="utf-8") as f:
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    resource_dir = os.path.join(base_dir, "..", "resources", f"{filename}.json")
+
+    with open(resource_dir, "r", encoding="utf-8") as f:
         return json.load(f)
