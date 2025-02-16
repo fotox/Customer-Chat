@@ -12,11 +12,11 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:15
         env:
-          POSTGRES_USER: user
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
+          POSTGRES_DB: chatdb
+          POSTGRES_USER: chatadmin
+          POSTGRES_PASSWORD: secretpassword
         ports:
           - 5432:5432
         options: >-
