@@ -1,0 +1,63 @@
+[
+  {
+    "description": "User betritt bestehenden Chat",
+    "expected": {
+      "disconnects": false,
+      "system_message": {
+        "system": "Chat connected!"
+      }
+    },
+    "input": {
+      "chat_id": "chat123",
+      "role": "user",
+      "username": "MaxMustermann"
+    },
+    "mocked_chat": {
+      "id": "chat123"
+    },
+    "mocked_user": {
+      "id": "user789",
+      "username": "MaxMustermann"
+    }
+  },
+  {
+    "description": "User betritt neuen Chat und wartet auf Supporter",
+    "expected": {
+      "disconnects": false,
+      "system_message": {
+        "system": "Wait for supporter..."
+      }
+    },
+    "input": {
+      "chat_id": "chat999",
+      "role": "user",
+      "username": "LisaMuster"
+    },
+    "mocked_chat": null,
+    "mocked_user": {
+      "id": "user456",
+      "username": "LisaMuster"
+    }
+  },
+  {
+    "description": "WebSocket wird getrennt",
+    "expected": {
+      "disconnects": true,
+      "system_message": {
+        "system": "Chat connected!"
+      }
+    },
+    "input": {
+      "chat_id": "chat456",
+      "role": "supporter",
+      "username": "SupporterJohn"
+    },
+    "mocked_chat": {
+      "id": "chat456"
+    },
+    "mocked_user": {
+      "id": "supporter123",
+      "username": "SupporterJohn"
+    }
+  }
+]

@@ -1,20 +1,36 @@
 [
   {
-    "description": "Assign supporter to available chat",
+    "description": "Erfolgreiche Zuweisung eines Chats an einen Supporter",
     "expected": {
-      "chat_id": "9999"
+      "response": {
+        "chat_id": "chat123"
+      },
+      "status": 200
     },
     "input": {
-      "supporter_name": "supporter1"
+      "supporter_name": "MaxMustermann"
+    },
+    "mocked_available_chat": {
+      "id": "chat123"
+    },
+    "mocked_supporter": {
+      "id": "supporter456"
     }
   },
   {
-    "description": "No available chat to assign",
+    "description": "Kein verf\u00fcgbarer Chat vorhanden",
     "expected": {
-      "chat_id": null
+      "response": {
+        "ERROR": "No available chat found."
+      },
+      "status": 400
     },
     "input": {
-      "supporter_name": "supporter2"
+      "supporter_name": "LisaMuster"
+    },
+    "mocked_available_chat": null,
+    "mocked_supporter": {
+      "id": "supporter789"
     }
   }
 ]
